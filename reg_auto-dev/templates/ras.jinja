@@ -1,0 +1,33 @@
+addrmap {{inst_name}} {
+    // RAS Architecture Node Instantiation
+    hj_genslv = true;
+    is_ras_arch = true;
+    {%- set record_cnt = [0] %}
+    {%- for n in range(record_list|length) %}{%- set node_loop = loop %}
+    regfile {
+        {%- for r in range(record_list[n]) %}
+        regfile {
+            {% if loop.first %}ERR_FR_0_first{% else %}ERR_FR_0_otherwise{% endif %} ERR{{record_cnt[0]}}FR_0;
+            ERR_FR_1 ERR{{loop.index0}}FR_1;
+            {% if loop.first %}ERR_CTRL_0_first{% else %}ERR_CTRL_0_otherwise{% endif %} ERR{{record_cnt[0]}}CTRL_0;
+            ERR_CTRL_1 ERR{{record_cnt[0]}}CTRL_1;
+            ERR_ADDR_0 ERR{{record_cnt[0]}}ADDR_0;
+            ERR_ADDR_1 ERR{{record_cnt[0]}}ADDR_1;
+            ERR_STATUS_0 ERR{{record_cnt[0]}}STATUS_0;
+            ERR_STATUS_1 ERR{{record_cnt[0]}}STATUS_1;
+            ERR_MISC0_0 ERR{{record_cnt[0]}}MISC0_0;
+            ERR_MISC0_1 ERR{{record_cnt[0]}}MISC0_1;
+            ERR_MISC1_0 ERR{{record_cnt[0]}}MISC1_0;
+            ERR_MISC1_1 ERR{{record_cnt[0]}}MISC1_1;
+            ERR_MISC2_0 ERR{{record_cnt[0]}}MISC2_0;
+            ERR_MISC2_1 ERR{{record_cnt[0]}}MISC2_1;
+            ERR_MISC3_0 ERR{{record_cnt[0]}}MISC3_0;
+            ERR_MISC3_1 ERR{{record_cnt[0]}}MISC3_1;
+        } record{{record_cnt[0]}} %= 0x40;
+        {%- if record_cnt.append(record_cnt.pop() + 1) %}{% endif %}
+        {%- endfor %}
+    } node{{loop.index0}};
+    {%- endfor %}
+    ERR_GSR ERRGSR @0xe00;
+    ERR_DEVARCH ERRDEVARCH @0xfbc;
+};

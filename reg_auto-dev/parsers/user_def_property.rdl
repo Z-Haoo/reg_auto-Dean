@@ -1,0 +1,157 @@
+/*
+ * HRDA User-defined Properties
+ */
+
+
+// used to distinguish 6 different types of addrmap:
+// reg_network, regmst, regdisp, regslv, 3rd party IP, flatten addrmap
+property hj_gennetwork {
+    component = addrmap;
+    type = boolean;
+};
+property hj_genmst {
+    component = addrmap;
+    type = boolean;
+};
+property hj_gendisp {
+    component = addrmap;
+    type = boolean;
+};
+property hj_genslv {
+    component = addrmap;
+    type = boolean;
+};
+property hj_3rd_party_ip {
+    component = addrmap;
+    type = boolean;
+};
+property hj_flatten_addrmap {
+    component = addrmap;
+    type = boolean;
+};
+
+// synchronous reset signals for fields
+property hj_syncresetsignal {
+    component = field;
+    type = string;
+};
+
+// whether this module needs clock domain crossing (CDC)
+property hj_cdc {
+    component = addrmap | mem;
+    type = boolean;
+};
+
+property base_addr {
+    component = addrmap;
+    type = longint;
+};
+
+property hj_reserved_space{
+    component = mem;
+    type = boolean;
+};
+
+property hj_use_upstream_ff {
+    component = addrmap | mem;
+    type = boolean;
+};
+
+property hj_use_backward_ff {
+    component = addrmap;
+    type = boolean;
+};
+
+// whether this module uses absolute address to access its internal space
+property hj_use_abs_addr {
+    component = addrmap | mem;
+    type = boolean;
+};
+
+// whether to skip the 1st DFF in regslv for internal regfile,
+// the property is not permitted to use in internal addrmap, default true
+property hj_skip_reg_mux_dff_0{
+    component = addrmap;
+    type = boolean;
+};
+
+// whether to skip the 2nd DFF in regslv for internal regfile,
+// the property is not permitted to use in internal addrmap, default true
+property hj_skip_reg_mux_dff_1{
+    component = addrmap;
+    type = boolean;
+};
+
+// maximum input number of mux can handle for internal regfile,
+// two-level split_mux will be generated if input number exceeds this value, default 128
+property hj_reg_mux_size{
+    component = addrmap;
+    type = longint;
+};
+
+property enable_pslverr {
+    component = addrmap;
+    type = boolean;
+};
+
+property hard_wired {
+    component = field;
+    type = boolean;
+};
+
+property injection {
+    component = field;
+    type = ref;
+};
+
+property intr_type {
+    component = field;
+    type = ref;
+};
+
+property is_ras_arch {
+    component = addrmap;
+    type = boolean;
+};
+
+// 0: secure only, 1: non-secure, 2: configured by register
+property secure_attr {
+    component = addrmap | mem;
+    type = longint;
+};
+
+// relative path to the register field which configures security
+// attribute of this addrmap
+// used only when secure_attr = 2
+property secure_config_ref {
+    component = addrmap | mem;
+    type = string;
+};
+
+// field reset parameterization
+property parameterized_reset {
+    component = field;
+    type = boolean;
+};
+
+property set_as_subsys_root {
+    component = addrmap;
+    type = boolean;
+};
+
+/*
+ * Generator Runtime Properties
+ *
+ * Controls the behavior of HRDA generator when traversing
+ * into instances with which these attributes are attached
+ */
+
+/*
+ * During RTL generation process, ignore the current addrmap
+ * instance (i.e. do not generate corresponding RTL code)
+ * when this property is explicitly specified as true.
+ */
+property dont_gen_rtl {
+    component = addrmap;
+    type = boolean;
+};
